@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-*2wv8%z+kkc4wblws$lksr%z_oc5k%5)4lwcw0$^)7=_$d1=ki
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -83,7 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'gymmersacademy.wsgi.application'
-
+ASGI_APPLICATION = 'gymmersacademy.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
