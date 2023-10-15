@@ -304,13 +304,19 @@ class AddCourse(APIView):
              return Response({"message":"catogery doesnt match"})
         else:
             print(cato)
-            course=Courses.objects.create(c_name=name,catogery=cato)
-            print(course)
-            allcourse=Courses.objects.all()
-            catoseril=CatogerySerailizer(cato)
-            allseril=CourseSerailzer(allcourse,many=True)
-            print(allseril)
-            return Response({"allcourse":allseril.data,"catoserail":catoseril.data})
+            c=Courses.objects.get(c_name=name,catogery=cato)
+            if  c:
+                 print("yes")
+                 return Response({"message":"already exist"})
+               
+            else:
+                course=Courses.objects.create(c_name=name,catogery=cato)
+                print(course)
+                allcourse=Courses.objects.all()
+                catoseril=CatogerySerailizer(cato)
+                allseril=CourseSerailzer(allcourse,many=True)
+                print(allseril)
+                return Response({"allcourse":allseril.data,"catoserail":catoseril.data})
     
         
 class TrainerVideoUpload(APIView):
@@ -335,12 +341,15 @@ class TrainerVideos(APIView):
         id=request.data.get("id")
         print(id)
         trainer=Trainers.objects.get(id=id)
-        video =Video.objects.get(trainers_videos=trainer)
-        s=video.video
-        print(video.video)
-        videoseril=VideoSerailzer(video)
-        print(videoseril.data)
-        return Response({"vid":s})
+        video =Video.objects.filter(trainers_videos=trainer).first()
+        if video:
+            s=video.video
+            print(video.video)
+            videoseril=VideoSerailzer(video)
+            print(videoseril.data)
+            return Response({"vid":s})
+        else:
+            return Response({"message":"no videos"})
 
 class Allcatogery(APIView):
     def post(self,request):
